@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>QuizSpace - Take Quiz</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* CATEGORY SELECT */
+    .select-box {
+      padding: 10px 15px;
+      font-size: 1rem;
+      border: 2px solid var(--accent, #0ea5a5);
+      border-radius: 8px;
+      background: #04111a;
+      color: #fff;
+      outline: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .select-box option {
+      background: #04111a;
+      color: #fff;
+    }
+
+    /* QUIZ QUESTIONS */
+    #questionText {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #04111a;
+    }
+
+    /* ✅ Options displayed vertically */
+    #options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 15px;
+      width: 100%;
+    }
+
+    .option-btn {
+      padding: 14px 20px;
+      background-color: #f9fafb;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: left;
+      font-size: 1rem;
+      width: 100%;
+      color: #04111a;
+      font-weight: 500;
+    }
+    .option-btn:hover {
+      background-color: #e0f7f7;
+      border-color: var(--accent, #0ea5a5);
+    }
+    .option-btn.selected {
+      background-color: #0ea5a5;
+      border-color: #0c8b8b;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* PROGRESS */
+    #progress {
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    /* Button row styling */
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="topbar">
+    <div class="brand">QuizSpace</div>
+    <div class="top-actions">
+      <span id="welcomeUser"></span>
+      <button class="btn" onclick="location.href='profile.html'">Profile</button>
+      <button class="btn alt" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="center-page">
+    <div class="card quiz-card">
+
+      <!-- CATEGORY SELECT -->
+      <div id="categoryArea">
+        <h2>🎯 Choose Your Quiz</h2>
+        <select id="categorySelect" class="select-box"></select>
+        <div class="btn-row">
+          <button class="btn" onclick="startQuiz()">Start Quiz</button>
+          <a class="btn alt" href="index.html">Back</a>
+        </div>
+      </div>
+
+      <!-- QUIZ QUESTIONS -->
+      <div id="quizArea" style="display:none;">
+        <div id="progress"></div>
+        <h2 id="questionText">Question will appear here</h2>
+        <div id="options"></div>
+        <div class="btn-row">
+          <button class="btn" onclick="nextQuestion()">Next</button>
+          <button class="btn alt" onclick="endQuizEarly()">End Quiz</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    loadQuizPage();
+
+    // Render a question with A, B, C, D labels
+    function displayQuestion(q) {
+      const optionsDiv = document.getElementById('options');
+      optionsDiv.innerHTML = ''; 
+      
+      document.getElementById('questionText').innerText = q.questionText;
+
+      const labels = ["A", "B", "C", "D"];
+      q.options.forEach((opt, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = `${labels[index]}. ${opt}`;
+        btn.onclick = () => selectOption(btn, index);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function selectOption(btn, index) {
+      // Clear previous selection
+      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      // Highlight chosen option
+      btn.classList.add('selected');
+      // TODO: Save answer to quiz state
+    }
+  </script>
+</body>
+</html>

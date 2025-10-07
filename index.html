@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>QuizSpace - Login</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Role Toggle */
+    .role-toggle {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin: 18px 0;
+    }
+    .role-btn {
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      font-size: 0.95rem;
+      transition: all 0.25s ease;
+    }
+    .role-btn:hover {
+      background: rgba(255,255,255,0.07);
+      transform: translateY(-2px);
+    }
+    .role-btn.active {
+      background: linear-gradient(90deg, #06d6a0, #0ea5a5);
+      color: #04111a;
+      font-weight: 700;
+      border: none;
+      box-shadow: 0 4px 18px rgba(6,214,160,0.4);
+      transform: translateY(-1px);
+    }
+
+    /* Card Updates */
+    .form-card {
+      width: 420px;
+      padding: 42px 36px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 35px rgba(0,0,0,0.55);
+      text-align:center;
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    /* Inputs */
+    input {
+      padding: 12px;
+      border-radius: 8px;
+      margin: 10px 0;
+      border: none;
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      transition: background 0.2s;
+    }
+    input:focus {
+      outline: none;
+      background: rgba(255,255,255,0.09);
+    }
+
+    /* Button Row */
+    .btn-row {
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      margin-top:16px;
+      flex-wrap:wrap;
+    }
+    .btn {
+      padding:12px 18px;
+      border-radius:8px;
+      font-weight:700;
+      border:none;
+      cursor:pointer;
+      transition: all 0.25s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+  </style>
+</head>
+<body>
+  <main class="center-page">
+    <div class="card form-card">
+      <h2>Welcome to QuizSpace</h2>
+
+      <div class="role-toggle" role="tablist" aria-label="Choose role">
+        <button id="roleStudent" class="role-btn active" onclick="selectRole('student')">Student</button>
+        <button id="roleTeacher" class="role-btn" onclick="selectRole('teacher')">Teacher</button>
+      </div>
+
+      <form id="unifiedLoginForm" onsubmit="loginUnified(event)">
+        <input id="loginUsername" required placeholder="Username" />
+        <input id="loginPassword" type="password" required placeholder="Password" />
+        <input type="hidden" id="selectedRole" value="student" />
+        <div class="btn-row">
+          <button class="btn" type="submit">Login</button>
+          <a class="btn alt" href="register.html" id="registerLink">Register</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    function selectRole(r){
+      document.getElementById('selectedRole').value = r;
+      document.getElementById('roleStudent').classList.toggle('active', r === 'student');
+      document.getElementById('roleTeacher').classList.toggle('active', r === 'teacher');
+      document.getElementById('registerLink').style.display = r === 'student' ? 'inline-block' : 'none';
+      document.getElementById('loginPassword').placeholder = r === 'teacher' ? 'Teacher Password' : 'Password';
+    }
+  </script>
+</body>
+</html>
